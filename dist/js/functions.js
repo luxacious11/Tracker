@@ -40,6 +40,53 @@ function getMonthName(monthNum) {
             break;
     }
 }
+function getMonthNum(monthName) {
+    let month;
+
+    switch(monthName.toLowerCase().trim()) {
+        case 'january':
+            month = 1;
+            break;
+        case 'february':
+            month = 2;
+            break;
+        case 'march':
+            month = 3;
+            break;
+        case 'april':
+            month = 4;
+            break;
+        case 'may':
+            month = 5;
+            break;
+        case 'june':
+            month = 6;
+            break;
+        case 'july':
+            month = 7;
+            break;
+        case 'august':
+            month = 8;
+            break;
+        case 'september':
+            month = 9;
+            break;
+        case 'october':
+            month = 10;
+            break;
+        case 'november':
+            month = 11;
+            break;
+        case 'december':
+            month = 12;
+            break;
+        default:
+            month = -1;
+            break;
+    }
+
+    return month;
+}
 function getDelay(date) {
     let elapsed = (new Date() - Date.parse(date)) / (1000*60*60*24);
     let delayClass;
@@ -110,10 +157,10 @@ function formatThread(site, siteURL, status, character, feature, title, threadID
 
     return html;
 }
-function sendAjax(data, thread, form = null, complete = null) {
+function sendAjax(data, thread, deployId, form = null, complete = null) {
     console.log('send ajax');
     $.ajax({
-        url: `https://script.google.com/macros/s/AKfycbwBKbff630nx14XxqQfJJCcKU5u444qf0WZ8w1q9FMFCvG38MKLMm_F_ctvZV9KUhd2bw/exec`,   
+        url: `https://script.google.com/macros/s/${deployId}/exec`,   
         data: data,
         method: "POST",
         type: "POST",
@@ -159,7 +206,7 @@ function changeStatus(e) {
             'Site': e.dataset.site,
             'Character': e.dataset.character,
             'Status': 'Theirs'
-        }, thread);
+        }, thread, threadDeploy);
     } else if(e.dataset.status === 'theirs' || e.dataset.status === 'planned') {
         e.dataset.status = 'mine';
         let thread = e.parentNode.parentNode.parentNode;
@@ -170,7 +217,7 @@ function changeStatus(e) {
             'Site': e.dataset.site,
             'Character': e.dataset.character,
             'Status': 'Mine'
-        }, thread);
+        }, thread, threadDeploy);
     }
 }
 function markComplete(e) {
@@ -183,7 +230,7 @@ function markComplete(e) {
         'Site': e.dataset.site,
         'Character': e.dataset.character,
         'Status': 'Complete'
-    }, thread, null, 'complete');
+    }, thread, threadDeploy, null, 'complete');
 }
 function addThread(e) {
     let site = e.currentTarget.querySelector('#site').options[e.currentTarget.querySelector('#site').selectedIndex].value.toLowerCase().trim(),
@@ -232,9 +279,9 @@ function addThread(e) {
         'Partner': partner,
         'Type': type,
         'LastUpdated': update
-    }, null, e);
+    }, null, threadDeploy, e);
 }
-function populatePage(array, siteObject) {
+function populateThreads(array, siteObject) {
     let html = ``;
     let characters = [], partners = [];
 
@@ -309,7 +356,7 @@ function setCustomFilter() {
     
     //check each item
     elements.forEach(el => {
-        let name = el.querySelector(threadTitle).textContent;
+        let name = el.querySelector(blockTitle).textContent;
         if(!name.toLowerCase().includes(qsRegex)) {
             el.classList.remove(visible);
             searchFilter = `.${visible}`;
@@ -379,7 +426,7 @@ function setCustomFilter() {
     }
 
     //join array into string
-    if(hideUnless.classList.contains('is-checked')) {
+    if(hideUnless && hideUnless.classList.contains('is-checked')) {
         filter = filter.join(', ');
     } else {
         filter = filter.map(item => `${item}${defaultShow}`);
@@ -587,7 +634,7 @@ function addCharacter(e) {
         'Site': site,
         'Character': character,
         'CharacterID': characterID
-    }, null, e);
+    }, null, threadDeploy, e);
 }
 function addSite(e) {
     let directory = e.currentTarget.querySelector('#directory').options[e.currentTarget.querySelector('#directory').selectedIndex].value.trim(),
@@ -599,7 +646,7 @@ function addSite(e) {
         'Site': site,
         'URL': url,
         'Directory': directory
-    }, null, e);
+    }, null, threadDeploy, e);
 }
 function partnerCheck(featureData, form) {
     let partnerField = form.querySelector('#writer');
@@ -629,7 +676,7 @@ function addPartner(e) {
         'CharacterID': characterID,
         'Writer': writer,
         'WriterID': writerID
-    }, null, e);
+    }, null, threadDeploy, e);
 }
 function fixMc(str) {
     return (""+str).replace(/Mc(.)/g, function(m, m1) {
@@ -674,4 +721,100 @@ function loadPartnerFields() {
     for(let i = 0; i < count; i++) {
         active.insertAdjacentHTML('beforeend', addPartnerFields(i));
     }
+}
+function populateCharacters(array, filters, baseUrl) {
+    let html = ``;
+    let generatedFilters = {};
+    //Make Generated Arrays
+    filters.forEach(filter => {
+        generatedFilters[filter] = [];
+    });
+
+    for (let i = 0; i < array.length; i++) {
+        let characterFilters = '';
+
+        //Assigned values after they're made, so as not to override with empty array
+        filters.forEach(filter => {
+            if(array[i][filter]) {
+                let filterName = array[i][filter].toLowerCase();
+                
+                filterName.split('+').forEach(name => {
+                    if(jQuery.inArray(name, generatedFilters[filter]) == -1 && name != '') {
+                        generatedFilters[filter].push(name);
+                    }
+                });
+    
+                if(characterFilters !== '') {
+                    characterFilters += ' ';
+                }
+                characterFilters += array[i][filter].split('+').map(item => `${filter.replace('Filter', '')}-${item}`).join(' ');
+            }
+        });
+
+        html += formatCharacter(array[i], characterFilters, baseUrl);
+    }
+
+    //sort appendable filters
+    filters.forEach(filter => {
+        generatedFilters[filter].sort();
+        generatedFilters[filter].forEach(filterName => {
+            document.querySelector(`[data-filter-group="${filter}"]`).insertAdjacentHTML('beforeend', `<label><input type="checkbox" value=".${filter.replace('Filter', '')}-${filterName.replaceAll(' ', '')}"/>${capitalize(filterName)}</label>`);
+        });
+    });
+    document.querySelector('#tracker--rows').insertAdjacentHTML('beforeend', html);
+}
+
+function formatCharacter(data, characterFilters, baseUrl) {
+    let adjustedYear = 2023 + parseInt(data.YearAdjustment);
+    let bYear = parseInt(data.BirthYear);
+    let bMonth = getMonthNum(data.BirthMonth);;
+    let bDay = parseInt(data.BirthDay);
+    let ageNum = ``;
+    if(bMonth < month || (bMonth === month && bDay <= day)) {
+        ageNum = adjustedYear - bYear;
+    } else {
+        ageNum = adjustedYear - bYear - 1;
+    }
+
+    let ageFilters;
+    if(data.FilterAge) {
+        ageFilters = data.FilterAge.split('+').map(item => `age-${item}`).join(' ');
+    }
+
+    let links = ``;
+    if(data.Links) {
+        let characterLinks = data.Links.split('+');
+        for(let i = 0; i < characterLinks.length; i++) {
+            let link = JSON.parse(characterLinks[i]);
+            links += `<a href="${link.url}" target="_blank">${link.title}</a>`;
+        }
+    }
+
+    return `<div class="${data.Character.split(' ')[0]} lux-track grid-item ${characterFilters} shipped-${data.FilterShipped} gender-${data.FilterGender} ${ageFilters}">
+        <div class="character">
+            <div class="character--image">
+                <img src="${data.Image}" />
+            </div>
+            <div class="character--main">
+                <b class="name">${data.Character}</b>
+                <div class="character--info">
+                    <div>${data.Gender}</div>
+                    <div>${data.Pronouns}</div>
+                    <div><span class="age">${ageNum}</span> years old</div>
+                    <div>${data.Face}</div>
+                </div>
+                ${data.Vibes && data.Vibes !== '' ? `<p>${data.Vibes}</p>` : ''}
+            </div>
+            <div class="character--links">
+                <a href="/">Popup</a>
+                <a href="${baseUrl}?showuser=${data.Account}" target="_blank">Profile</a>
+                ${links}
+            </div>
+        </div>
+    </div>`;
+}
+
+function openFilters(e) {
+    e.classList.toggle('is-open');
+    e.parentNode.querySelector('.tracker--filter-dropdown').classList.toggle('is-open');
 }

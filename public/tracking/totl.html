@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!--Styles-->
-<link rel="stylesheet" href="../../dist/css/styles.css" />
+<link rel="stylesheet" href="../../dist/css/newStyles.css" />
 <link rel="stylesheet" href="https://dawneggleton.github.io/jcink-temps/sslp/characters.css" />
 
 <!--Fonts-->
@@ -14,6 +14,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Palanquin+Dark:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Palanquin:wght@100;200;300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
 
 <!--Icons-->
 <link href="https://dawneggleton.github.io/css/all.css" rel="stylesheet" />
@@ -24,9 +26,11 @@
 <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
+<!--Settings-->
+<script type='text/javascript' src='../../dist/js/settings.js'></script>
+
 <!--Scripts-->
 <script type='text/javascript' src='../../dist/js/functions.js'></script>
-<script type='text/javascript' src='../../dist/js/scripts.js'></script>
     </head>
     <body>
         <nav>
@@ -131,6 +135,14 @@
     <script>
         //set overall variables
         let siteName = 'Turn on the Light';
+        const typeSearch = `#quicksearch`;
+        const blockTitle = `.thread--title`;
+        const visible = `is-visible`;
+        const filterGroup = `.tracker--filter-group`;
+        const filterOptions = `.tracker--filter-group input`;
+        const sorts = `.tracker--header button`;
+        const gridItem = `.grid-item`;
+        const defaultShow = `:not(.status--complete)`;
 
         //set class variables
         let $container = $('#tracker--rows');
@@ -143,7 +155,7 @@
             .then((siteData) => {
                 let siteObject = siteData.filter(item => item.Site.toLowerCase().trim() === siteName.toLowerCase().trim())[0];
                 let threads = prepThreads(threadData, siteObject.Site);
-                populatePage(threads, siteObject);
+                populateThreads(threads, siteObject);
             }).then(() => {
             //initialize isotope
             // quick search regex

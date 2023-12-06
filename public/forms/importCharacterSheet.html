@@ -2,7 +2,7 @@
 <html>
     <head>
         
-<title>Lux | Godly Behaviour Charts</title>
+<title>Lux | Add Character</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!--Styles-->
@@ -70,42 +70,24 @@
         </li>
     </ul>
 </nav>
-        <section class="tracker charts">
-    <div class="chart">
-        <b>Last Reply</b>
-        <div class="chart--time"></div>
-    </div>
-    <div class="chart">
-        <b>Status</b>
-        <div class="chart--status"></div>
-    </div>
-    <div class="chart">
-        <b>Type</b>
-        <div class="chart--type"></div>
-    </div>
-    <div class="chart">
-        <b>Partners</b>
-        <div class="chart--partner"></div>
-    </div>
+        <section>
+            <form id="import-character">
+                <label class="fullWidth">
+                    <b>Site</b>
+                    <select required id="site">
+                        <option value="">(select)</option>
+                        <option value="GB">Godly Behaviour</option>
+                    </select>
+                </label>
+                <label>
+                    <b>Character ID</b>
+                    <input required type="number" id="character" />
+                </label>
+                <button type="submit" class="fullWidth">Submit</button>
+            </form>
+        </section>
 
-    <script src="../../dist/js/charts.js"></script>
-    <script>
-        //set overall variables
-        let siteName = 'Godly Behaviour';
-
-        //set class variables
-        let $container = $('#tracker--rows');
-
-        fetch(`${sheet}/Threads`)
-        .then((response) => response.json())
-        .then((threadData) => {
-            let siteThreads = threadData.filter(item => item.Site.toLowerCase().trim() === siteName.toLowerCase().trim());
-            let threads = loadThreads(siteThreads);
-
-            console.log(threads);
-            loadCharts(threads);
-        });
-    </script>
-</section>
+        <!--Scripts-->
+        <script type='text/javascript' src='../../dist/js/scripts.js'></script>
     </body>
 </html>

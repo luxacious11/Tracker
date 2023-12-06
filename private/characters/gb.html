@@ -10,6 +10,13 @@
         @@include('../../source/templates/nav.html', {
             "prefix": "../.."
         })
-        <section>Character Page</section>
+        @@include('../../source/templates/characters.html', {
+            "siteSheet": "GB",
+            "extraFilters": "FilterSpecies",
+            "siteURL": "https://godlybehaviour.jcink.net/",
+            context: {
+              name: 'test'
+            }
+        })
     </body>
 </html>

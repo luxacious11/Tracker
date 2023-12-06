@@ -1,14 +1,6 @@
-const sheet = `https://opensheet.elk.sh/1KDKs6Kh7dXd9V3Vgcw9ipLPiaDsUqiyRPNGYw7wFnsQ`;
+const sheet = `https://opensheet.elk.sh/${threadSheet}`;
 let threads = [];
 var filters = {};
-const typeSearch = `#quicksearch`;
-const threadTitle = `.thread--title`;
-const visible = `is-visible`;
-const filterGroup = `.tracker--filter-group`;
-const filterOptions = `.tracker--filter-group input`;
-const sorts = `.tracker--header button`;
-const gridItem = `.grid-item`;
-const defaultShow = `:not(.status--complete)`;
 if(document.querySelectorAll('#add-thread').length > 0) {
     loadPartnerFields();
 }

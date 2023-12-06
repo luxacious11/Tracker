@@ -23,6 +23,17 @@ function loadCharts(threads) {
     typeChart.render();
     let partnerChart = new ApexCharts(document.querySelector(".chart--partner"), configPartners(threads));
     partnerChart.render();
+
+    window.addEventListener('resize', () => {
+        let timeChart = new ApexCharts(document.querySelector(".chart--time"), configTime(threads));
+        timeChart.render();
+        let statusChart = new ApexCharts(document.querySelector(".chart--status"), configStatus(threads));
+        statusChart.render();
+        let typeChart = new ApexCharts(document.querySelector(".chart--type"), configType(threads));
+        typeChart.render();
+        let partnerChart = new ApexCharts(document.querySelector(".chart--partner"), configPartners(threads));
+        partnerChart.render();
+    });
 }
 
 function configTime(threads) {
@@ -39,7 +50,6 @@ function configTime(threads) {
         colors: ['rgb(146, 172, 125)', 'rgb(174, 176, 121)', 'rgb(196, 179, 131)', 'rgb(193, 160, 135)', 'rgb(193, 138, 135)', 'rgb(189, 112, 112)'],
         chart: {
             type: 'donut',
-            height: '400px',
         },
         plotOptions: {
             pie: {
@@ -119,7 +129,6 @@ function configStatus(threads) {
         colors: ['rgba(162, 129, 119, 1)', 'rgba(125, 159, 129, 1)', 'rgb(141, 165, 176)'],
         chart: {
             type: 'donut',
-            height: '400px',
         },
         plotOptions: {
             pie: {
@@ -199,7 +208,6 @@ function configType(threads) {
         colors: ['rgb(141, 165, 176)', 'rgb(174, 140, 161)', 'rgba(189, 173, 133, 1)'],
         chart: {
             type: 'donut',
-            height: '400px',
         },
         plotOptions: {
             pie: {
@@ -301,7 +309,6 @@ function configPartners(threads) {
         series: [{data: final}],
         chart: {
             type: 'bar',
-            height: '400px',
         },
         plotOptions: {
             bar: {

@@ -63,6 +63,14 @@
     <script>
         //set overall variables
         let siteName = '@@sitename';
+        const typeSearch = `#quicksearch`;
+        const blockTitle = `.thread--title`;
+        const visible = `is-visible`;
+        const filterGroup = `.tracker--filter-group`;
+        const filterOptions = `.tracker--filter-group input`;
+        const sorts = `.tracker--header button`;
+        const gridItem = `.grid-item`;
+        const defaultShow = `:not(.status--complete)`;
 
         //set class variables
         let $container = $('#tracker--rows');
@@ -75,7 +83,7 @@
             .then((siteData) => {
                 let siteObject = siteData.filter(item => item.Site.toLowerCase().trim() === siteName.toLowerCase().trim())[0];
                 let threads = prepThreads(threadData, siteObject.Site);
-                populatePage(threads, siteObject);
+                populateThreads(threads, siteObject);
             }).then(() => {
             //initialize isotope
             // quick search regex
