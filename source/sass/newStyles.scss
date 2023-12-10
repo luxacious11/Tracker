@@ -10,6 +10,7 @@
     --black: rgb(75,75,75);
     --accent: rgb(161, 185, 179);
     --dkAccent: rgb(132, 157, 151);
+    --accent-30: rgb(161, 185, 179, 0.3);
 
     --bg-body: var(--offwhite);
     --bg-content: var(--white);
@@ -17,6 +18,7 @@
     --bg-secondary: var(--xlgrey);
     --bg-accent: var(--accent);
     --bg-accent-alt: var(--dkAccent);
+    --bg-accent-transparent: var(--accent-30);
     --border-main: var(--mdgrey);
     --border-secondary: var(--ltgrey);
     --text-body: var(--dkgrey);
@@ -48,13 +50,6 @@ a {
     text-decoration: none;
     color: var(--bg-accent);
 }
-
-.lux-track {
-    --character-bg: rgb(var(--rgb, transparent));
-    --character-bg-transparent: rgba(var(--rgb), 0.3);
-    --character-text: rgb(var(--rgb-dark, var(--rgb, transparent)));
-}
-
 nav {
     position: sticky;
     top: 0;
@@ -240,7 +235,123 @@ nav {
         }
     }
 }
+.fullWidth {
+    grid-column: 1 / -1;
+}
+input,
+select,
+textarea {
+    background: var(--bg-content);
+    color: var(--text-body);
+    font-family: var(--font-body);
+    border: 1px solid var(--border-main);
+    border-radius: 2px;
+    font-size: 14px;
+    padding: 10px 15px;
+    width: 100%;
+    line-height: 100%;
 
+    &:hover,
+    &:focus {
+        border-color: var(--bg-accent);
+        outline: 1px solid var(--bg-accent);
+    }
+}
+label {
+    b {
+        font-family: var(--font-accent);
+        font-size: 18px;
+        text-transform: lowercase;
+        font-weight: 700;
+        color: var(--text-accent);
+        letter-spacing: -0.075em;
+        
+        @include mq-up(sm) {
+            font-size: 24px;
+        }
+    }
+}
+
+
+/** Variable Overrides for Characters **/
+.lux-track {
+    --character-bg: rgb(var(--rgb, transparent));
+    --character-bg-transparent: rgba(var(--rgb), 0.3);
+    --character-text: rgb(var(--rgb-dark, var(--rgb, transparent)));
+}
+
+
+/** Forms **/
+section {
+    form {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 0 30px;
+        display: grid;
+        gap: 15px;
+        
+        @include mq-up(sm) {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        #clip-partners {
+            display: grid;
+            gap: 15px;
+            
+            @include mq-up(sm) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        button {
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            padding: 15px 30px;
+            line-height: 100%;
+            background: none;
+            border: 0;
+            cursor: pointer;
+            max-width: max-content;
+            margin: 10px auto;
+
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                width: 5px;
+                height: calc(100% - 2px);
+                border: 1px solid var(--text-secondary);
+                z-index: -1;
+                transition-duration: 0.3s;
+            }
+
+            &:hover {
+                &::before,
+                &::after {
+                    width: calc(100% - 2px);
+                    background: var(--bg-accent-transparent);
+                }
+            }
+
+            &::before {
+                left: 0;
+                border-right: 0;
+            }
+
+            &::after {
+                right: 0;
+                border-left: 0;
+            }
+        }
+    }
+}
+
+
+/** Thread Tracking **/
 .tracker {
     &--header {
         position: sticky;
@@ -401,6 +512,8 @@ nav {
     }
 }
 
+
+/** Character Lists **/
 .characters {
     .tracker--content {
         padding: 10px 10px 0;
@@ -419,7 +532,6 @@ nav {
         }
     }
 }
-
 .character {
     display: grid;
     grid-template-columns: auto;
@@ -620,10 +732,6 @@ nav {
         gap: 5px;
         font-size: 14px;
         padding: 30px;
-
-        &.fullWidth {
-            grid-column: 1 / -1;
-        }
 
         & > strong {
             text-transform: lowercase;

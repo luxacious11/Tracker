@@ -792,6 +792,7 @@ function formatCharacter(data, characterFilters, baseUrl) {
     
     let app = ``;
     for(item in data) {
+        //Check if it's a field you don't want to show
         if (item !== 'YearAdjustment'
         && item !== 'Character'
         && item !== 'Account'
@@ -804,16 +805,12 @@ function formatCharacter(data, characterFilters, baseUrl) {
         && !item.includes('Filter')
         && data[item] !== `<i>No Information</i>`
         && !(item === 'YearsDead' && data[item] === '0')) {
+
+            //if not, assign title and content (field name and field content)
             let title = item;
             let content = data[item];
-            if(content.split(`~ `).length > 1 && !content.includes(`<tl>`) ) {
-                content = `<ul>
-                    ${content
-                    .split(`~ `)
-                    .filter(item => item !== '' && item !== '\n')
-                    .map(item => `<li>${item}</li>`).join('')}
-                </ul>`;
-            }
+
+            //check for tildelist hack from gb and accommodate
             if(content.split(`~ `).length > 1 && !content.includes(`<tl>`) ) {
                 content = `<ul>
                     ${content
@@ -830,6 +827,8 @@ function formatCharacter(data, characterFilters, baseUrl) {
                     .filter(item => item !== '' && item !== '\n')
                     .map(item => `<li>${item}</li>`).join('');
             }
+
+            //Title and Content adjustments, such as multi-word titles and fields that are being combined (like birthday combines BirthYear, BirthMonth, and BirthDay)
             if(title === 'FullName') {
                 title = 'Full Name'
             } else if (title === 'BirthMonth') {
@@ -854,17 +853,21 @@ function formatCharacter(data, characterFilters, baseUrl) {
                 title = 'Important People';
             }
 
+            //Template stage
+            //Check if it's a field you want full width on non-mobile
             if(title === 'Warnings'
             || title === 'Cheatsheet'
             || title === 'Freeform'
             || title === 'Relationships'
             || title === 'Summary'
             || title === 'Shipper') {
+                //If so, use this template
                 app += `<div class="character--profile-item fullWidth">
                     <strong>${title}</strong>
                     <span class="scroll">${content}</span>
                 </div>`;
             } else {
+                //If not, use this template
                 app += `<div class="character--profile-item">
                     <strong>${title}</strong>
                     <span class="scroll">${content}</span>

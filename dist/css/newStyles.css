@@ -8,12 +8,14 @@
   --black: rgb(75,75,75);
   --accent: rgb(161, 185, 179);
   --dkAccent: rgb(132, 157, 151);
+  --accent-30: rgb(161, 185, 179, 0.3);
   --bg-body: var(--offwhite);
   --bg-content: var(--white);
   --bg-menu: var(--ltgrey);
   --bg-secondary: var(--xlgrey);
   --bg-accent: var(--accent);
   --bg-accent-alt: var(--dkAccent);
+  --bg-accent-transparent: var(--accent-30);
   --border-main: var(--mdgrey);
   --border-secondary: var(--ltgrey);
   --text-body: var(--dkgrey);
@@ -44,11 +46,6 @@ body {
 a {
   text-decoration: none;
   color: var(--bg-accent); }
-
-.lux-track {
-  --character-bg: rgb(var(--rgb, transparent));
-  --character-bg-transparent: rgba(var(--rgb), 0.3);
-  --character-text: rgb(var(--rgb-dark, var(--rgb, transparent))); }
 
 nav {
   position: -webkit-sticky;
@@ -215,6 +212,102 @@ nav {
           nav.mobile.is-open .mobileNav ul > li a:hover + ul > li:first-child {
             margin-top: 5px; }
 
+.fullWidth {
+  grid-column: 1 / -1; }
+
+input,
+select,
+textarea {
+  background: var(--bg-content);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  border: 1px solid var(--border-main);
+  border-radius: 2px;
+  font-size: 14px;
+  padding: 10px 15px;
+  width: 100%;
+  line-height: 100%; }
+  input:hover, input:focus,
+  select:hover,
+  select:focus,
+  textarea:hover,
+  textarea:focus {
+    border-color: var(--bg-accent);
+    outline: 1px solid var(--bg-accent); }
+
+label b {
+  font-family: var(--font-accent);
+  font-size: 18px;
+  text-transform: lowercase;
+  font-weight: 700;
+  color: var(--text-accent);
+  letter-spacing: -0.075em; }
+  @media (min-width: 769px) {
+    label b {
+      font-size: 24px; } }
+
+/** Variable Overrides for Characters **/
+.lux-track {
+  --character-bg: rgb(var(--rgb, transparent));
+  --character-bg-transparent: rgba(var(--rgb), 0.3);
+  --character-text: rgb(var(--rgb-dark, var(--rgb, transparent))); }
+
+/** Forms **/
+section form {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 30px;
+  display: -ms-grid;
+  display: grid;
+  gap: 15px; }
+  @media (min-width: 769px) {
+    section form {
+      -ms-grid-columns: (1fr)[2];
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px; } }
+  section form #clip-partners {
+    display: -ms-grid;
+    display: grid;
+    gap: 15px; }
+    @media (min-width: 769px) {
+      section form #clip-partners {
+        -ms-grid-columns: (1fr)[2];
+        grid-template-columns: repeat(2, 1fr); } }
+  section form button {
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    padding: 15px 30px;
+    line-height: 100%;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    max-width: -webkit-max-content;
+    max-width: -moz-max-content;
+    max-width: max-content;
+    margin: 10px auto; }
+    section form button::before, section form button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 5px;
+      height: calc(100% - 2px);
+      border: 1px solid var(--text-secondary);
+      z-index: -1;
+      -webkit-transition-duration: 0.3s;
+              transition-duration: 0.3s; }
+    section form button:hover::before, section form button:hover::after {
+      width: calc(100% - 2px);
+      background: var(--bg-accent-transparent); }
+    section form button::before {
+      left: 0;
+      border-right: 0; }
+    section form button::after {
+      right: 0;
+      border-left: 0; }
+
+/** Thread Tracking **/
 .tracker--header {
   position: -webkit-sticky;
   position: sticky;
@@ -372,6 +465,7 @@ nav {
         -ms-flex-direction: column;
             flex-direction: column; }
 
+/** Character Lists **/
 .characters .tracker--content {
   padding: 10px 10px 0;
   max-width: 900px;
@@ -593,8 +687,6 @@ nav {
     gap: 5px;
     font-size: 14px;
     padding: 30px; }
-    .character--profile-item.fullWidth {
-      grid-column: 1 / -1; }
     .character--profile-item > strong {
       text-transform: lowercase;
       font-family: var(--font-accent);
