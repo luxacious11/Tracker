@@ -105,7 +105,7 @@ function getDelay(date) {
     }
     return delayClass;
 }
-function formatThread(site, siteURL, status, character, feature, title, threadID, icDate, partnerObjects, type, lastPost, delayClass, directoryString) {
+function formatOldThread(site, siteURL, status, character, feature, title, threadID, icDate, partnerObjects, type, lastPost, delayClass, directoryString) {
     //set writing partners
     let partners = ``;
     let partnerClasses = ``;
@@ -157,6 +157,69 @@ function formatThread(site, siteURL, status, character, feature, title, threadID
 
     return html;
 }
+function formatThread(site, siteURL, status, character, feature, title, threadID, icDate, partnerObjects, type, lastPost, delayClass, directoryString) {
+    //set writing partners
+    let partners = ``;
+    let partnerClasses = ``;
+    partnerObjects.forEach((partner, i) => {
+        if(partnerObjects.length === (i + 1) && partnerObjects.length !== 1) {
+            partners += ` and `;
+        } else if(i !== 0) {
+            partners += ` `;
+            partnerClasses += ` `;
+        }
+        partners += `<a href="${siteURL}/${directoryString}${partner.id.toLowerCase().trim()}">${partner.partner.toLowerCase().trim()}</a>`;
+        partnerClasses += `partner--${partner.partner.toLowerCase().trim().replaceAll(' ', '').toLowerCase().trim()}`;
+        if(partnerObjects.length !== (i + 1)) {
+            partnerClasses += ` `;
+            if(partnerObjects.length !== 2) {
+                partners += `,`;
+            }
+        }
+    });
+
+    //set featured characters
+    let featuring = ``;
+    let ftObjects = feature.split('+').map(character => JSON.parse(character));
+    ftObjects.forEach((character, i) => {
+        if(ftObjects.length === (i + 1) && ftObjects.length !== 1) {
+            featuring += ` and `;
+        } else if(i !== 0) {
+            featuring += ` `;
+        }
+        featuring += `<a href="${siteURL}/?showuser=${character.id.toLowerCase().trim()}">${character.character.toLowerCase().trim()}</a>`;
+        if(ftObjects.length !== (i + 1) && ftObjects.length !== 2) {
+            featuring += `,`;
+        }
+    });
+    let buttons = ``;
+    if (status !== 'complete' && status !== 'archived') {
+        buttons = `<button onClick="changeStatus(this)" data-status="${status}" data-id="${threadID}" data-site="${site}" data-character="${character.split('#')[0]}" title="Change Turn"><i class="fa-regular fa-arrow-right-arrow-left"></i><i class="fa-solid fa-spinner fa-spin"></i></button>
+        <button onClick="markComplete(this)" data-id="${threadID}" data-site="${site}" data-character="${character.split('#')[0]}" title="Mark Complete"><i class="fa-regular fa-badge-check"></i><i class="fa-solid fa-spinner fa-spin"></i></button>
+        <button onClick="markArchived(this)" data-id="${threadID}" data-site="${site}" data-character="${character.split('#')[0]}" title="Archive"><i class="fa-regular fa-trash"></i><i class="fa-solid fa-spinner fa-spin"></i></button>`;
+    } else if (status !== 'archived') {
+        buttons = `<button onClick="markArchived(this)" data-id="${threadID}" data-site="${site}" data-character="${character.split('#')[0]}" title="Archive"><i class="fa-regular fa-trash"></i><i class="fa-solid fa-spinner fa-spin"></i></button>`;
+    }
+    let html = `<div class="thread lux-track grid-item status--${status} ${character.split(' ')[0]} delay--${delayClass} type--${type.split(' ')[0]} ${partnerClasses} grid-item">
+        <div class="thread--wrap">
+            <div class="thread--main">
+                <a href="${siteURL}/?showtopic=${threadID}&view=getnewpost" target="_blank" class="thread--title">${title}</a>
+                <div class="thread--info">
+                    <span>Writing as <a class="thread--character" href="${siteURL}/?showuser=${character.split('#')[1]}">${character.split('#')[0]}</a></span>
+                    <span class="thread--feature">ft. ${featuring}</span>
+                    <span class="thread--partners">Writing with ${partners}</span>
+                </div>
+                <div class="thread--info">
+                    <span class="thread--ic-date">Set <span>${icDate}</span></span>
+                    <span class="thread--last-post">Last Active <span>${lastPost}</span></span>
+                </div>
+            </div>
+            <div class="thread--buttons">${buttons}</div>
+        </div>
+    </div>`;
+
+    return html;
+}
 function sendAjax(data, thread, deployId, form = null, complete = null) {
     console.log('send ajax');
     $.ajax({
@@ -181,16 +244,17 @@ function sendAjax(data, thread, deployId, form = null, complete = null) {
                 thread.classList.remove('status--theirs');
                 thread.classList.remove('status--expecting');
                 thread.classList.add('status--complete');
-            }else if(data.Status === 'Theirs') {
+                thread.querySelectorAll('button').forEach(button => button.classList.remove('is-updating'));
+            } else if(data.Status === 'Theirs') {
                 thread.classList.remove('status--mine');
                 thread.classList.remove('status--start');
                 thread.classList.add('status--theirs');
-                thread.querySelector('[data-status]').innerText = 'Change Status';
+                thread.querySelector('[data-status]').classList.remove('is-updating');
             } else if(data.Status === 'Mine') {
                 thread.classList.remove('status--theirs');
                 thread.classList.remove('status--expecting');
                 thread.classList.add('status--mine');
-                thread.querySelector('[data-status]').innerText = 'Change Status';
+                thread.querySelector('[data-status]').classList.remove('is-updating');
             }
         }
     });
@@ -199,7 +263,7 @@ function changeStatus(e) {
     if(e.dataset.status === 'mine' || e.dataset.status === 'start') {
         e.dataset.status = 'theirs';
         let thread = e.parentNode.parentNode.parentNode;
-        thread.querySelector('[data-status]').innerText = 'Changing...';
+        e.classList.add('is-updating');
         sendAjax({
             'SubmissionType': 'edit-thread',
             'ThreadID': e.dataset.id,
@@ -210,7 +274,7 @@ function changeStatus(e) {
     } else if(e.dataset.status === 'theirs' || e.dataset.status === 'planned') {
         e.dataset.status = 'mine';
         let thread = e.parentNode.parentNode.parentNode;
-        thread.querySelector('[data-status]').innerText = 'Changing...';
+        e.classList.add('is-updating');
         sendAjax({
             'SubmissionType': 'edit-thread',
             'ThreadID': e.dataset.id,
@@ -223,7 +287,7 @@ function changeStatus(e) {
 function markComplete(e) {
     e.dataset.status = 'complete';
     let thread = e.parentNode.parentNode.parentNode;
-    thread.querySelector('[data-status] + button').innerText = 'Updating...';
+    e.classList.add('is-updating');
     sendAjax({
         'SubmissionType': 'edit-thread',
         'ThreadID': e.dataset.id,
@@ -231,6 +295,18 @@ function markComplete(e) {
         'Character': e.dataset.character,
         'Status': 'Complete'
     }, thread, threadDeploy, null, 'complete');
+}
+function markArchived(e) {
+    e.dataset.status = 'archived';
+    let thread = e.parentNode.parentNode.parentNode;
+    e.classList.add('is-updating');
+    sendAjax({
+        'SubmissionType': 'edit-thread',
+        'ThreadID': e.dataset.id,
+        'Site': e.dataset.site,
+        'Character': e.dataset.character,
+        'Status': 'Archived'
+    }, thread, threadDeploy, null, 'archived');
 }
 function addThread(e) {
     let site = e.currentTarget.querySelector('#site').options[e.currentTarget.querySelector('#site').selectedIndex].value.toLowerCase().trim(),
@@ -499,7 +575,7 @@ function initIsotope() {
     });
 }
 function prepThreads(data, site) {
-    let threads = data.filter(item => item.Site.toLowerCase().trim() === site.toLowerCase().trim());
+    let threads = data.filter(item => item.Site.toLowerCase().trim() === site.toLowerCase().trim() && item.Status.toLowerCase().trim() !== 'archived');
     threads.sort((a, b) => {
         let aStatus = a.Status.toLowerCase() === 'complete' ? 1 : 0;
         let bStatus = b.Status.toLowerCase() === 'complete' ? 1 : 0;
@@ -510,6 +586,27 @@ function prepThreads(data, site) {
         } else if(aStatus < bStatus) {
             return -1;
         } else if (aStatus > bStatus) {
+            return 1;
+        } else if(new Date(a.ICDate) < new Date(b.ICDate)) {
+            return -1;
+        } else if (new Date(a.ICDate) > new Date(b.ICDate)) {
+            return 1;
+        } else if(new Date(a.LastUpdate) < new Date(b.LastUpdate)) {
+            return -1;
+        } else if (new Date(a.LastUpdate) > new Date(b.LastUpdate)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+    return threads;
+}
+function prepArchivedThreads(data, site) {
+    let threads = data.filter(item => item.Site.toLowerCase().trim() === site.toLowerCase().trim() && item.Status.toLowerCase().trim() === 'archived');
+    threads.sort((a, b) => {
+        if(a.Character < b.Character) {
+            return -1;
+        } else if (a.Character > b.Character) {
             return 1;
         } else if(new Date(a.ICDate) < new Date(b.ICDate)) {
             return -1;

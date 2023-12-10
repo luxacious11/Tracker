@@ -28,33 +28,6 @@
                 </div>
             </div>
             <div class="tracker--filter">
-                <button onClick="openFilters(this)">Last Reply</button>
-                <div class="tracker--filter-dropdown">
-                    <div class="tracker--filter-group claim--labels" data-filter-group="lastreply">
-                        <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">any time</label>
-                        <label><input type="checkbox" value=".delay--okay">less than a week</label>
-                        <label><input type="checkbox" value=".delay--week">more than a week</label>
-                        <label><input type="checkbox" value=".delay--month">more than a month</label>
-                        <label><input type="checkbox" value=".delay--quarter">more than three months</label>
-                        <label><input type="checkbox" value=".delay--half">more than six months</label>
-                        <label><input type="checkbox" value=".delay--year">more than a year</label>
-                    </div>
-                </div>
-            </div>
-            <div class="tracker--filter">
-                <button onClick="openFilters(this)">Status</button>
-                <div class="tracker--filter-dropdown">
-                    <div class="tracker--filter-group claim--labels" data-filter-group="status">
-                        <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
-                        <label><input type="checkbox" value=".status--mine">my turn</label>
-                        <label><input type="checkbox" value=".status--theirs">their turn</label>
-                        <label><input type="checkbox" value=".status--start">to start</label>
-                        <label><input type="checkbox" value=".status--planned">planned</label>
-                        <label class="completed-label"><input type="checkbox" value=".status--complete">completed</label>
-                    </div>
-                </div>
-            </div>
-            <div class="tracker--filter">
                 <button onClick="openFilters(this)">Thread Type</button>
                 <div class="tracker--filter-dropdown">
                     <div class="tracker--filter-group claim--labels" data-filter-group="type">
@@ -93,7 +66,7 @@
             .then((response) => response.json())
             .then((siteData) => {
                 let siteObject = siteData.filter(item => item.Site.toLowerCase().trim() === siteName.toLowerCase().trim())[0];
-                let threads = prepThreads(threadData, siteObject.Site);
+                let threads = prepArchivedThreads(threadData, siteObject.Site);
                 populateThreads(threads, siteObject);
             }).then(() => {
             //initialize isotope

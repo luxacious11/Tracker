@@ -1,6 +1,6 @@
 function loadThreads(data) {
     let threads = [];
-    data.forEach(item => {
+    data.filter(item => item.Status.toLowerCase().trim() !== 'archived').forEach(item => {
         let delayClass = getDelay(item.LastUpdated);
         let thread = {
             status: item.Status ? item.Status.toLowerCase().trim() : '',

@@ -6,14 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!--Styles-->
-<link rel="stylesheet" href="../../dist/css/styles.css" />
-<link rel="stylesheet" href="https://dawneggleton.github.io/jcink-temps/sslp/characters.css" />
+<link rel="stylesheet" href="../../dist/css/newStyles.css" />
+<link rel="stylesheet" href="https://luxacious11.github.io/dist/css/characters.css" />
 
 <!--Fonts-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Palanquin+Dark:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Palanquin:wght@100;200;300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
 
 <!--Icons-->
 <link href="https://dawneggleton.github.io/css/all.css" rel="stylesheet" />
@@ -24,9 +26,11 @@
 <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
+<!--Settings-->
+<script type='text/javascript' src='../../dist/js/settings.js'></script>
+
 <!--Scripts-->
 <script type='text/javascript' src='../../dist/js/functions.js'></script>
-<script type='text/javascript' src='../../dist/js/scripts.js'></script>
     </head>
     <body>
         <nav>
@@ -41,10 +45,27 @@
             </ul>
         </li>
         <li>
-            <a href="../../public/characters/gb.html">Godly Behaviour</a>
+            <a href="../../public/sites/gb.html">Godly Behaviour</a>
             <ul>
-            <li><a href="../../public/tracking/gb.html">Thread List</a></li>
+            <li><a href="../../public/tracking/gb.html">Threads</a></li>
             <li><a href="../../public/charts/gb.html">Charts</a></li>
+            <li><a href="../../public/characters/gb.html">Characters</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="../../public/sites/legends.html">Legends</a>
+            <ul>
+            <li><a href="../../public/tracking/legends.html">Threads</a></li>
+            <li><a href="../../public/charts/legends.html">Charts</a></li>
+            <li><a href="../../public/characters/legends.html">Characters</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="../../public/sites/totl.html">Turn on the Light</a>
+            <ul>
+            <li><a href="../../public/tracking/totl.html">Threads</a></li>
+            <li><a href="../../public/charts/totl.html">Charts</a></li>
+            <li><a href="../../public/characters/totl.html">Characters</a></li>
             </ul>
         </li>
     </ul>
@@ -53,57 +74,68 @@
     <div class="tracker--header" data-type="flex">
         <input id="quicksearch" class="forminput memberlist-namesearch" type="text" size="25" name="name" value="" placeholder="Filter by name...">
         <div class="tracker--sort-buttons" data-type="flex">
-            <button type="button" class="tracker--sort is-checked" data-sort="character">Character<br>(A -> Z)</button>
-            <button type="button" class="tracker--sort" data-sort="title">Title<br>(A -> Z)</button>
-            <button type="button" class="tracker--sort" data-sort="icdate">IC Date<br>(Asc)</button>
-            <button type="button" class="tracker--sort" data-sort="lastpost">Last Post<br>(Desc)</button>
+            <button type="button" class="tracker--sort is-checked" data-sort="character">Character (A -> Z)</button>
+            <button type="button" class="tracker--sort" data-sort="title">Title (A -> Z)</button>
+            <button type="button" class="tracker--sort" data-sort="icdate">IC Date (Asc)</button>
+            <button type="button" class="tracker--sort" data-sort="lastpost">Last Post (Desc)</button>
         </div>
     </div>
     <div class="tracker--wrapper">
+
         <div class="tracker--filters">
-            <div class="tracker--filter character-list">
-                <b>Character</b>
-                <div class="tracker--filter-group claim--labels tracker--characters" data-filter-group="character">
-                    <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
+            <div class="tracker--filter">
+                <button onClick="openFilters(this)">Character</button>
+                <div class="tracker--filter-dropdown">
+                    <div class="tracker--filter-group claim--labels tracker--characters" data-filter-group="charater">
+                        <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
+                    </div>
                 </div>
             </div>
             <div class="tracker--filter">
-                <b>Partner</b>
-                <div class="tracker--filter-group claim--labels tracker--partners" data-filter-group="partner">
-                    <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
+                <button onClick="openFilters(this)">Partner</button>
+                <div class="tracker--filter-dropdown">
+                    <div class="tracker--filter-group claim--labels tracker--partners" data-filter-group="partner">
+                        <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
+                    </div>
                 </div>
             </div>
             <div class="tracker--filter">
-                <b>Last Reply</b>
-                <div class="tracker--filter-group claim--labels" data-filter-group="lastreply">
-                    <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">any time</label>
-                    <label><input type="checkbox" value=".delay--okay">less than a week</label>
-                    <label><input type="checkbox" value=".delay--week">more than a week</label>
-                    <label><input type="checkbox" value=".delay--month">more than a month</label>
-                    <label><input type="checkbox" value=".delay--quarter">more than three months</label>
-                    <label><input type="checkbox" value=".delay--half">more than six months</label>
-                    <label><input type="checkbox" value=".delay--year">more than a year</label>
+                <button onClick="openFilters(this)">Last Reply</button>
+                <div class="tracker--filter-dropdown">
+                    <div class="tracker--filter-group claim--labels" data-filter-group="lastreply">
+                        <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">any time</label>
+                        <label><input type="checkbox" value=".delay--okay">less than a week</label>
+                        <label><input type="checkbox" value=".delay--week">more than a week</label>
+                        <label><input type="checkbox" value=".delay--month">more than a month</label>
+                        <label><input type="checkbox" value=".delay--quarter">more than three months</label>
+                        <label><input type="checkbox" value=".delay--half">more than six months</label>
+                        <label><input type="checkbox" value=".delay--year">more than a year</label>
+                    </div>
                 </div>
             </div>
             <div class="tracker--filter">
-                <b>Status</b>
-                <div class="tracker--filter-group claim--labels" data-filter-group="status">
-                    <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
-                    <label><input type="checkbox" value=".status--mine">my turn</label>
-                    <label><input type="checkbox" value=".status--theirs">their turn</label>
-                    <label><input type="checkbox" value=".status--start">to start</label>
-                    <label><input type="checkbox" value=".status--planned">planned</label>
-                    <label class="completed-label"><input type="checkbox" value=".status--complete">completed</label>
+                <button onClick="openFilters(this)">Status</button>
+                <div class="tracker--filter-dropdown">
+                    <div class="tracker--filter-group claim--labels" data-filter-group="status">
+                        <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
+                        <label><input type="checkbox" value=".status--mine">my turn</label>
+                        <label><input type="checkbox" value=".status--theirs">their turn</label>
+                        <label><input type="checkbox" value=".status--start">to start</label>
+                        <label><input type="checkbox" value=".status--planned">planned</label>
+                        <label class="completed-label"><input type="checkbox" value=".status--complete">completed</label>
+                    </div>
                 </div>
             </div>
             <div class="tracker--filter">
-                <b>Thread Type</b>
-                <div class="tracker--filter-group claim--labels" data-filter-group="type">
-                    <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
-                    <label><input type="checkbox" value=".type--thread">thread</label>
-                    <label><input type="checkbox" value=".type--comm">comm</label>
-                    <label><input type="checkbox" value=".type--social">social media</label>
-                    <label><input type="checkbox" value=".type--one-shot">one-shot</label>
+                <button onClick="openFilters(this)">Thread Type</button>
+                <div class="tracker--filter-dropdown">
+                    <div class="tracker--filter-group claim--labels" data-filter-group="type">
+                        <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
+                        <label><input type="checkbox" value=".type--thread">thread</label>
+                        <label><input type="checkbox" value=".type--comm">comm</label>
+                        <label><input type="checkbox" value=".type--social">social media</label>
+                        <label><input type="checkbox" value=".type--one-shot">one-shot</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,19 +146,27 @@
     <script>
         //set overall variables
         let siteName = 'Godly Behaviour';
+        const typeSearch = `#quicksearch`;
+        const blockTitle = `.thread--title`;
+        const visible = `is-visible`;
+        const filterGroup = `.tracker--filter-group`;
+        const filterOptions = `.tracker--filter-group input`;
+        const sorts = `.tracker--header button`;
+        const gridItem = `.grid-item`;
+        const defaultShow = `:not(.status--complete)`;
 
         //set class variables
         let $container = $('#tracker--rows');
 
-        fetch(`${sheet}/Threads`)
+        fetch(`https://opensheet.elk.sh/${threadSheet}/Threads`)
         .then((response) => response.json())
         .then((threadData) => {
-            fetch(`${sheet}/Sites`)
+            fetch(`https://opensheet.elk.sh/${threadSheet}/Sites`)
             .then((response) => response.json())
             .then((siteData) => {
                 let siteObject = siteData.filter(item => item.Site.toLowerCase().trim() === siteName.toLowerCase().trim())[0];
                 let threads = prepThreads(threadData, siteObject.Site);
-                populatePage(threads, siteObject);
+                populateThreads(threads, siteObject);
             }).then(() => {
             //initialize isotope
             // quick search regex

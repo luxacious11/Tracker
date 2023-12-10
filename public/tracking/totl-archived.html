@@ -2,7 +2,7 @@
 <html>
     <head>
         
-<title>Lux | Godly Behaviour Characters</title>
+<title>Lux | TOTL Threads (Archived)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!--Styles-->
@@ -31,7 +31,6 @@
 
 <!--Scripts-->
 <script type='text/javascript' src='../../dist/js/functions.js'></script>
-        <link rel="stylesheet" href="../../dist/css/gbCharacters.css" />
     </head>
     <body>
         <nav>
@@ -73,79 +72,47 @@
         </li>
     </ul>
 </nav>
-        <section class="characters">
+        <section class="tracker">
     <div class="tracker--header" data-type="flex">
         <input id="quicksearch" class="forminput memberlist-namesearch" type="text" size="25" name="name" value="" placeholder="Filter by name...">
         <div class="tracker--sort-buttons" data-type="flex">
-            <button type="button" class="tracker--sort is-checked" data-sort="charAsc">Name (A -> Z)</button>
-            <button type="button" class="tracker--sort" data-sort="charDesc">Name (Z -> A)</button>
-            <button type="button" class="tracker--sort" data-sort="ageAsc">Age (Asc)</button>
-            <button type="button" class="tracker--sort" data-sort="ageDesc">Age (Desc)</button>
+            <button type="button" class="tracker--sort is-checked" data-sort="character">Character (A -> Z)</button>
+            <button type="button" class="tracker--sort" data-sort="title">Title (A -> Z)</button>
+            <button type="button" class="tracker--sort" data-sort="icdate">IC Date (Asc)</button>
+            <button type="button" class="tracker--sort" data-sort="lastpost">Last Post (Desc)</button>
         </div>
     </div>
     <div class="tracker--wrapper">
+
         <div class="tracker--filters">
             <div class="tracker--filter">
-                <button onClick="openFilters(this)">Gender</button>
+                <button onClick="openFilters(this)">Character</button>
                 <div class="tracker--filter-dropdown">
-                    <div class="tracker--filter-group claim--labels" data-filter-group="gender">
+                    <div class="tracker--filter-group claim--labels tracker--characters" data-filter-group="charater">
                         <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
-                        <label><input type="checkbox" value=".gender-male">male</label>
-                        <label><input type="checkbox" value=".gender-female">female</label>
-                        <label><input type="checkbox" value=".gender-nonbinary">nonbinary</label>
                     </div>
                 </div>
             </div>
             <div class="tracker--filter">
-                <button onClick="openFilters(this)">Age</button>
+                <button onClick="openFilters(this)">Partner</button>
                 <div class="tracker--filter-dropdown">
-                    <div class="tracker--filter-group claim--labels" data-filter-group="age">
+                    <div class="tracker--filter-group claim--labels tracker--partners" data-filter-group="partner">
                         <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
-                        
-                        
-                            <label><input type="checkbox" value=".age-under30">Under 30</label>
-                            <label><input type="checkbox" value=".age-30-59">30-59</label>
-                            <label><input type="checkbox" value=".age-50-99">60-99</label>
-                            <label><input type="checkbox" value=".age-100-499">100-499</label>
-                            <label><input type="checkbox" value=".age-500-999">500-999</label>
-                            <label><input type="checkbox" value=".age-1000-1999">1000-1999</label>
-                            <label><input type="checkbox" value=".age-2000-2999">2000-2999</label>
-                            <label><input type="checkbox" value=".age-3000">3000+</label>
-                        
                     </div>
-                    
-                        <hr>
-                        <div class="tracker--filter-group claim--labels" data-filter-group="immortality">
-                            <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">either</label>
-                            <label><input type="checkbox" value=".age-mortal">Mortal</label>
-                            <label><input type="checkbox" value=".age-immortal">Immortal</label>
-                        </div>
-                    
                 </div>
             </div>
             <div class="tracker--filter">
-                <button onClick="openFilters(this)">Shipped</button>
+                <button onClick="openFilters(this)">Thread Type</button>
                 <div class="tracker--filter-dropdown">
-                    <div class="tracker--filter-group claim--labels" data-filter-group="shipped">
+                    <div class="tracker--filter-group claim--labels" data-filter-group="type">
                         <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
-                        <label><input type="checkbox" value=".shipped-taken">taken</label>
-                        <label><input type="checkbox" value=".shipped-wanted">wanted</label>
-                        <label><input type="checkbox" value=".shipped-open">open</label>
-                        <label><input type="checkbox" value=".shipped-none">not interested</label>
+                        <label><input type="checkbox" value=".type--thread">thread</label>
+                        <label><input type="checkbox" value=".type--comm">comm</label>
+                        <label><input type="checkbox" value=".type--social">social media</label>
+                        <label><input type="checkbox" value=".type--one-shot">one-shot</label>
                     </div>
                 </div>
             </div>
-            
-                <div class="tracker--filter">
-    <button onClick="openFilters(this)">Species</button>
-    <div class="tracker--filter-dropdown">
-        <div class="tracker--filter-group claim--labels" data-filter-group="FilterSpecies">
-            <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
-        </div>
-    </div>
-</div>
-            
-            
         </div>
         <div class="tracker--content">
             <div id="tracker--rows" class="tracker--threads"></div>
@@ -153,8 +120,9 @@
     </div>
     <script>
         //set overall variables
+        let siteName = 'Turn on the Light';
         const typeSearch = `#quicksearch`;
-        const blockTitle = `.grid-item .name`;
+        const blockTitle = `.thread--title`;
         const visible = `is-visible`;
         const filterGroup = `.tracker--filter-group`;
         const filterOptions = `.tracker--filter-group input`;
@@ -164,16 +132,17 @@
 
         //set class variables
         let $container = $('#tracker--rows');
-        let filters = "FilterSpecies";
-        console.log(filters.split(', '));
 
-        fetch(`https://opensheet.elk.sh/${characterSheet}/GB`)
+        fetch(`https://opensheet.elk.sh/${threadSheet}/Threads`)
         .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            populateCharacters(data, filters = filters.split(', '), 'https://godlybehaviour.jcink.net/');
-
-        }).then(() => {
+        .then((threadData) => {
+            fetch(`https://opensheet.elk.sh/${threadSheet}/Sites`)
+            .then((response) => response.json())
+            .then((siteData) => {
+                let siteObject = siteData.filter(item => item.Site.toLowerCase().trim() === siteName.toLowerCase().trim())[0];
+                let threads = prepArchivedThreads(threadData, siteObject.Site);
+                populateThreads(threads, siteObject);
+            }).then(() => {
             //initialize isotope
             // quick search regex
             let qsRegex;
@@ -185,22 +154,27 @@
                 percentPosition: true,
                 filter: defaultShow,
                 getSortData: {
-                    charAsc: '.name',
-                    charDesc: '.name',
-                    ageAsc: '.age parseInt',
-                    ageDesc: '.age parseInt',
+                    character: '.thread--character',
+                    title: '.thread--title',
+                    icdate: function ($elem) {
+                        return Date.parse($elem.querySelector('.thread--ic-date span').innerText);
+                    },
+                    lastpost: function ($elem) {
+                        return Date.parse($elem.querySelector('.thread--last-post span').innerText);
+                    },
                 },
                 sortAscending: {
-                    charAsc: true,
-                    charDesc: false,
-                    ageAsc: true,
-                    ageDesc: false,
+                    character: true,
+                    title: true,
+                    icdate: false,
+                    lastpost: true,
                 }
             });
             setTimeout(function() {
                 $container.isotope('layout');
             }, 300);
             initIsotope();
+        });
         });
     </script>
 </section>
