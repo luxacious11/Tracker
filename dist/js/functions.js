@@ -757,7 +757,6 @@ function partnerCheck(featureData, form) {
             form.querySelector('#writerID').value = '';
         }
     });
-
 }
 function addPartner(e) {
     let site = e.currentTarget.querySelector('#site').options[e.currentTarget.querySelector('#site').selectedIndex].value.toLowerCase().trim(),

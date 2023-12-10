@@ -17,13 +17,13 @@ if(document.querySelectorAll('.tracker--header').length > 0) {
 
 let threadForm = document.querySelector('#add-thread');
 if(threadForm) {
-    fetch(`${sheet}/Sites`)
+    fetch(`https://opensheet.elk.sh/${threadSheet}/Sites`)
     .then((response) => response.json())
     .then((siteData) => {
-        fetch(`${sheet}/Characters`)
+        fetch(`https://opensheet.elk.sh/${threadSheet}/Characters`)
         .then((response) => response.json())
         .then((characterData) => {
-            fetch(`${sheet}/Featured`)
+            fetch(`https://opensheet.elk.sh/${threadSheet}/Featured`)
             .then((response) => response.json())
             .then((featureData) => {
                 fillThreadForm(siteData, characterData, featureData, threadForm);
@@ -40,7 +40,7 @@ if(threadForm) {
 
 let characterForm = document.querySelector('#add-character');
 if(characterForm) {
-    fetch(`${sheet}/Sites`)
+    fetch(`https://opensheet.elk.sh/${threadSheet}/Sites`)
     .then((response) => response.json())
     .then((siteData) => {
         fillSiteSelect(siteData, characterForm);
@@ -64,10 +64,10 @@ if(siteForm) {
 
 let partnerForm = document.querySelector('#add-partner');
 if(partnerForm) {
-    fetch(`${sheet}/Sites`)
+    fetch(`https://opensheet.elk.sh/${threadSheet}/Sites`)
     .then((response) => response.json())
     .then((siteData) => {
-        fetch(`${sheet}/Featured`)
+        fetch(`https://opensheet.elk.sh/${threadSheet}/Featured`)
         .then((response) => response.json())
         .then((featureData) => {
             fillSiteSelect(siteData, partnerForm);
