@@ -1,8 +1,18 @@
-const sheet = `https://opensheet.elk.sh/${threadSheet}`;
 let threads = [];
 var filters = {};
 if(document.querySelectorAll('#add-thread').length > 0) {
     loadPartnerFields();
+}
+
+if(document.querySelectorAll('.tracker--header').length > 0) {
+    setTimeout(() => {
+        let menuHeight = document.querySelector('nav').clientHeight;
+        document.querySelector('.tracker--header').style.top = `${menuHeight}px`;
+    }, 200);
+    window.addEventListener('resize', () => {
+        let menuHeight = document.querySelector('nav').clientHeight;
+        document.querySelector('.tracker--header').style.top = `${menuHeight}px`;
+    });
 }
 
 let threadForm = document.querySelector('#add-thread');

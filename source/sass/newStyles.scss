@@ -61,7 +61,6 @@ nav {
     text-transform: uppercase;
     font-size: 10px;
     letter-spacing: 0.1em;
-    height: 55px;
     display: flex;
     align-items: center;
     border-bottom: 1px solid var(--border-main);
@@ -399,7 +398,6 @@ section {
 .tracker {
     &--header {
         position: sticky;
-        top: 55px;
         background: var(--bg-menu);
         border-bottom: 1px solid var(--border-main);
         display: flex;
