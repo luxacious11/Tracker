@@ -585,7 +585,11 @@ section form {
     display: grid;
     -ms-grid-columns: (30px)[3];
     grid-template-columns: repeat(3, 30px);
-    gap: 5px; }
+    gap: 5px;
+    -webkit-box-pack: end;
+    -webkit-justify-content: end;
+        -ms-flex-pack: end;
+            justify-content: end; }
     .thread--buttons button {
       width: 30px;
       height: 30px;

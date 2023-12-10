@@ -642,6 +642,7 @@ section {
         display: grid;
         grid-template-columns: repeat(3, 30px);
         gap: 5px;
+        justify-content: end;
         
         button {
             width: 30px;
