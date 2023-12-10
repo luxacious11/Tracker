@@ -157,7 +157,7 @@ function formatOldThread(site, siteURL, status, character, feature, title, threa
 
     return html;
 }
-function formatThread(site, siteURL, status, character, feature, title, threadID, icDate, partnerObjects, type, lastPost, delayClass, directoryString) {
+function formatThread(site, siteURL, status, character, feature, title, threadID, icDate, partnerObjects, type, lastPost, delayClass, directoryString, snippet) {
     //set writing partners
     let partners = ``;
     let partnerClasses = ``;
@@ -213,6 +213,7 @@ function formatThread(site, siteURL, status, character, feature, title, threadID
                     <span class="thread--ic-date">Set <span>${icDate}</span></span>
                     <span class="thread--last-post">Last Active <span>${lastPost}</span></span>
                 </div>
+                ${snippet && snippet !== '' ? `<div class="thread--info"><p>${snippet}</p></div>` : ''}
             </div>
             <div class="thread--buttons">${buttons}</div>
         </div>
@@ -319,7 +320,8 @@ function addThread(e) {
         year = new Date().getFullYear(),
         month = getMonthName(new Date().getMonth()),
         day = new Date().getDate(),
-        update = `${month} ${day}, ${year}`;
+        update = `${month} ${day}, ${year}`,
+        snippet = e.currentTarget.querySelector('#description').value ? e.currentTarget.querySelector('#description').value : '';
 
         let partners = document.querySelectorAll('.partner select');
         let partnerObjects = [];
@@ -354,7 +356,8 @@ function addThread(e) {
         'ICDate': icDate,
         'Partner': partner,
         'Type': type,
-        'LastUpdated': update
+        'LastUpdated': update,
+        'Snippet': snippet
     }, null, threadDeploy, e);
 }
 function populateThreads(array, siteObject) {
@@ -387,7 +390,8 @@ function populateThreads(array, siteObject) {
                             array[i].Type.toLowerCase(),
                             array[i].LastUpdated.toLowerCase(),
                             getDelay(array[i].LastUpdated),
-                            siteObject.Directory);
+                            siteObject.Directory,
+                            array[i].Snippet);
     }
     document.querySelector('#tracker--rows').insertAdjacentHTML('beforeend', html);
 
