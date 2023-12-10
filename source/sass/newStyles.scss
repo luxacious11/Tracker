@@ -351,6 +351,50 @@ section {
 }
 
 
+/** Charts **/
+.charts {
+    display: grid;
+    grid-gap: 30px;
+    padding: 30px;
+    grid-template-columns: 100%;
+
+    @include mq-up(lg) {
+        grid-template-columns: repeat(2, calc(50% - (30px / 2)));
+    }
+
+    .chart {
+        max-width: 100%;
+        width: 100%;
+        display: grid;
+        grid-template-rows: max-content 1fr;
+        gap: 5px;
+        
+        &--box {
+            background: var(--bg-content);
+            border-radius: 2px;
+            padding: 15px 20px;
+        }
+    
+        b {
+            font-family: var(--font-accent);
+            font-size: 18px;
+            text-transform: lowercase;
+            font-weight: 700;
+            color: var(--text-accent);
+            letter-spacing: -0.075em;
+            
+            @include mq-up(sm) {
+                font-size: 24px;
+            }
+        }
+
+        .apexcharts-canvas {
+            max-width: 100%;
+        }
+    }
+}
+
+
 /** Thread Tracking **/
 .tracker {
     &--header {

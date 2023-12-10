@@ -307,6 +307,45 @@ section form {
       right: 0;
       border-left: 0; }
 
+/** Charts **/
+.charts {
+  display: -ms-grid;
+  display: grid;
+  grid-gap: 30px;
+  padding: 30px;
+  -ms-grid-columns: 100%;
+  grid-template-columns: 100%; }
+  @media (min-width: 1281px) {
+    .charts {
+      -ms-grid-columns: (calc(50% - (30px / 2)))[2];
+      grid-template-columns: repeat(2, calc(50% - (30px / 2))); } }
+  .charts .chart {
+    max-width: 100%;
+    width: 100%;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-rows: -webkit-max-content 1fr;
+    -ms-grid-rows: max-content 1fr;
+    grid-template-rows: -webkit-max-content 1fr;
+    grid-template-rows: max-content 1fr;
+    gap: 5px; }
+    .charts .chart--box {
+      background: var(--bg-content);
+      border-radius: 2px;
+      padding: 15px 20px; }
+    .charts .chart b {
+      font-family: var(--font-accent);
+      font-size: 18px;
+      text-transform: lowercase;
+      font-weight: 700;
+      color: var(--text-accent);
+      letter-spacing: -0.075em; }
+      @media (min-width: 769px) {
+        .charts .chart b {
+          font-size: 24px; } }
+    .charts .chart .apexcharts-canvas {
+      max-width: 100%; }
+
 /** Thread Tracking **/
 .tracker--header {
   position: -webkit-sticky;
