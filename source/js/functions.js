@@ -789,6 +789,89 @@ function formatCharacter(data, characterFilters, baseUrl) {
             links += `<a href="${link.url}" target="_blank">${link.title}</a>`;
         }
     }
+    
+    let app = ``;
+    for(item in data) {
+        if (item !== 'YearAdjustment'
+        && item !== 'Character'
+        && item !== 'Account'
+        && item !== 'Image'
+        && item !== 'Vibes'
+        && item !== 'Links'
+        && item !== 'BirthYear'
+        && item !== 'BirthDay'
+        && item !== 'Weight'
+        && !item.includes('Filter')
+        && data[item] !== `<i>No Information</i>`
+        && !(item === 'YearsDead' && data[item] === '0')) {
+            let title = item;
+            let content = data[item];
+            if(content.split(`~ `).length > 1 && !content.includes(`<tl>`) ) {
+                content = `<ul>
+                    ${content
+                    .split(`~ `)
+                    .filter(item => item !== '' && item !== '\n')
+                    .map(item => `<li>${item}</li>`).join('')}
+                </ul>`;
+            }
+            if(content.split(`~ `).length > 1 && !content.includes(`<tl>`) ) {
+                content = `<ul>
+                    ${content
+                    .split(`~ `)
+                    .filter(item => item !== '' && item !== '\n')
+                    .map(item => `<li>${item}</li>`).join('')}
+                </ul>`;
+            }
+            if(content.includes(`<tl>`) ) {
+                content = content
+                    .replaceAll(`<tl>`, `<ul>`)
+                    .replaceAll(`</tl>`, `</ul>`)
+                    .split(`~ `)
+                    .filter(item => item !== '' && item !== '\n')
+                    .map(item => `<li>${item}</li>`).join('');
+            }
+            if(title === 'FullName') {
+                title = 'Full Name'
+            } else if (title === 'BirthMonth') {
+                title = 'Birthday';
+                if (parseInt(data.BirthYear) < 0) {
+                    content = `${data.BirthMonth} ${data.BirthDay}, ${parseInt(data.BirthYear) * -1} BC`;
+                } else {
+                    content = `${data.BirthMonth} ${data.BirthDay}, ${data.BirthYear}`;
+                }
+            }  else if (title === 'Height') {
+                title = 'Height & Weight';
+                content = `${data.Height}, ${data.Weight}`;
+            } else if (title === 'SexualOrientation') {
+                title = 'Sexual Orientation';
+            } else if (title === 'RomanticOrientation') {
+                title = 'Romantic Orientation';
+            } else if (title === 'YearsDead') {
+                title = 'Years Dead';
+            } else if (title === 'BloodStatus') {
+                title = 'Blood Status';
+            } else if (title === 'ImportantPeople') {
+                title = 'Important People';
+            }
+
+            if(title === 'Warnings'
+            || title === 'Cheatsheet'
+            || title === 'Freeform'
+            || title === 'Relationships'
+            || title === 'Summary'
+            || title === 'Shipper') {
+                app += `<div class="character--profile-item fullWidth">
+                    <strong>${title}</strong>
+                    <span class="scroll">${content}</span>
+                </div>`;
+            } else {
+                app += `<div class="character--profile-item">
+                    <strong>${title}</strong>
+                    <span class="scroll">${content}</span>
+                </div>`;
+            }
+        }
+    }
 
     return `<div class="${data.Character.split(' ')[0]} lux-track grid-item ${characterFilters} shipped-${data.FilterShipped} gender-${data.FilterGender} ${ageFilters}">
         <div class="character">
@@ -806,10 +889,17 @@ function formatCharacter(data, characterFilters, baseUrl) {
                 ${data.Vibes && data.Vibes !== '' ? `<p>${data.Vibes}</p>` : ''}
             </div>
             <div class="character--links">
-                <a href="/">Popup</a>
+                <button onClick="openModalProfile(this)">View More</button>
                 <a href="${baseUrl}?showuser=${data.Account}" target="_blank">Profile</a>
                 ${links}
             </div>
+        </div>
+        <div class="character--modal">
+            <button onClick="closeModalProfile(this)" class="character--modal-close">Close</button>
+            <strong>${data.Character}</strong>
+            <div class="scroll"><div class="character--app">
+                ${app}
+            </div></div>
         </div>
     </div>`;
 }
@@ -817,4 +907,15 @@ function formatCharacter(data, characterFilters, baseUrl) {
 function openFilters(e) {
     e.classList.toggle('is-open');
     e.parentNode.querySelector('.tracker--filter-dropdown').classList.toggle('is-open');
+}
+
+function openModalProfile(e) {
+    document.querySelectorAll('.character--modal').forEach(modal => modal.classList.remove('is-open'));
+    e.closest('.grid-item').querySelector('.character--modal').classList.add('is-open');
+    document.querySelector('body').classList.add('modal-open');
+}
+
+function closeModalProfile(e) {
+    document.querySelectorAll('.character--modal').forEach(modal => modal.classList.remove('is-open'));
+    document.querySelector('body').classList.remove('modal-open');
 }

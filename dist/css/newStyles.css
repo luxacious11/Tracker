@@ -1,16 +1,19 @@
 :root {
-  --white: rgba(245,245,245);
-  --offwhite: rgba(235,235,235);
+  --white: rgb(245,245,245);
+  --offwhite: rgb(235,235,235);
   --xlgrey: rgb(225, 225, 225);
   --ltgrey: rgb(210, 210, 210);
-  --mdgrey: rgba(180,180,180);
-  --dkgrey: rgba(100,100,100);
-  --black: rgba(75,75,75);
+  --mdgrey: rgb(180,180,180);
+  --dkgrey: rgb(119, 119, 119);
+  --black: rgb(75,75,75);
+  --accent: rgb(161, 185, 179);
   --dkAccent: rgb(132, 157, 151);
   --bg-body: var(--offwhite);
   --bg-content: var(--white);
   --bg-menu: var(--ltgrey);
   --bg-secondary: var(--xlgrey);
+  --bg-accent: var(--accent);
+  --bg-accent-alt: var(--dkAccent);
   --border-main: var(--mdgrey);
   --border-secondary: var(--ltgrey);
   --text-body: var(--dkgrey);
@@ -43,11 +46,11 @@ a {
   color: var(--bg-accent); }
 
 .lux-track {
-  --marker-accent: var(--accent, transparent); }
+  --character-bg: rgb(var(--rgb, transparent));
+  --character-bg-transparent: rgba(var(--rgb), 0.3);
+  --character-text: rgb(var(--rgb-dark, var(--rgb, transparent))); }
 
 nav {
-  --accent: rgb(161, 185, 179);
-  --bg-accent: var(--accent);
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -213,8 +216,6 @@ nav {
             margin-top: 5px; }
 
 .tracker--header {
-  --accent: rgb(161, 185, 179);
-  --bg-accent: var(--accent);
   position: -webkit-sticky;
   position: sticky;
   top: 55px;
@@ -255,10 +256,10 @@ nav {
     border: 0;
     border-radius: 2px;
     cursor: pointer; }
+    .tracker--header button:hover {
+      background: var(--bg-accent-alt); }
 
 .tracker--filters {
-  --accent: rgb(161, 185, 179);
-  --bg-accent: var(--accent);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -398,7 +399,7 @@ nav {
           -ms-flex-align: center;
               align-items: center; } }
   .character--image {
-    border-left: 10px solid var(--marker-accent);
+    border-left: 10px solid var(--character-bg);
     width: 100px;
     padding-left: 10px;
     height: 80px; }
@@ -415,9 +416,15 @@ nav {
     font-family: var(--font-accent);
     text-transform: lowercase;
     color: var(--text-secondary);
-    font-size: 26px;
+    font-size: 18px;
     letter-spacing: -0.05em;
     line-height: 160%; }
+    @media only screen and (min-width: 480px) {
+      .character--main .name {
+        font-size: calc(18px + 8 * (100vw - 480px) / (1920 - 480)); } }
+    @media only screen and (min-width: 1920px) {
+      .character--main .name {
+        font-size: 26px; } }
   .character--main p {
     font-style: italic;
     font-size: 11px;
@@ -450,8 +457,6 @@ nav {
     background: var(--bg-content);
     border-radius: 2px;
     padding: 10px;
-    text-transform: uppercase;
-    font-size: 10px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -460,10 +465,23 @@ nav {
         -ms-flex-wrap: wrap;
             flex-wrap: wrap;
     line-height: 100%;
-    font-weight: 700;
-    gap: 10px; }
+    gap: 10px;
+    text-align: left; }
+    .character--links button,
     .character--links a {
-      color: var(--text-accent); }
+      max-width: -webkit-max-content;
+      max-width: -moz-max-content;
+      max-width: max-content;
+      color: var(--text-accent);
+      text-transform: uppercase;
+      font-size: 10px;
+      font-weight: 700; }
+    .character--links button {
+      background: none;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      cursor: pointer; }
     @media (min-width: 769px) {
       .character--links {
         -ms-grid-columns: 80px auto 125px;
@@ -473,3 +491,142 @@ nav {
         -webkit-flex-direction: column;
             -ms-flex-direction: column;
                 flex-direction: column; } }
+  .character--modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--bg-body);
+    z-index: 100;
+    padding: 30px; }
+    .character--modal > strong {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+          -ms-flex-align: center;
+              align-items: center;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      text-align: center;
+      font-size: 36px;
+      letter-spacing: -0.1em;
+      height: 60px;
+      font-family: var(--font-accent);
+      text-transform: lowercase;
+      margin-bottom: 30px;
+      color: var(--character-text); }
+      @media only screen and (min-width: 480px) {
+        .character--modal > strong {
+          font-size: calc(36px + 14 * (100vw - 480px) / (1920 - 480)); } }
+      @media only screen and (min-width: 1920px) {
+        .character--modal > strong {
+          font-size: 50px; } }
+    .character--modal > .scroll {
+      overflow: auto;
+      padding-right: 30px;
+      scrollbar-color: var(--accent) transparent;
+      scrollbar-width: thin;
+      height: calc(100vh - 150px); }
+      .character--modal > .scroll .character--app {
+        display: -ms-grid;
+        display: grid;
+        gap: 10px;
+        max-width: 900px;
+        margin: 0 auto; }
+        @media (min-width: 769px) {
+          .character--modal > .scroll .character--app {
+            -ms-grid-columns: (1fr)[2];
+            grid-template-columns: repeat(2, 1fr); } }
+    .character--modal.is-open {
+      display: initial; }
+    .character--modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      padding: 7px 15px;
+      line-height: 100%;
+      background: none;
+      border: 0;
+      cursor: pointer; }
+      .character--modal-close::before, .character--modal-close::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: 5px;
+        height: calc(100% - 2px);
+        border: 1px solid var(--text-secondary);
+        z-index: -1;
+        -webkit-transition-duration: 0.3s;
+                transition-duration: 0.3s; }
+      .character--modal-close:hover::before, .character--modal-close:hover::after {
+        width: calc(100% - 2px);
+        background: var(--character-bg-transparent); }
+      .character--modal-close::before {
+        left: 0;
+        border-right: 0; }
+      .character--modal-close::after {
+        right: 0;
+        border-left: 0; }
+  .character--profile-item {
+    background: var(--bg-content);
+    border-radius: 2px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 5px;
+    font-size: 14px;
+    padding: 30px; }
+    .character--profile-item.fullWidth {
+      grid-column: 1 / -1; }
+    .character--profile-item > strong {
+      text-transform: lowercase;
+      font-family: var(--font-accent);
+      font-size: 18px;
+      letter-spacing: -0.05em;
+      color: var(--character-text); }
+      @media only screen and (min-width: 480px) {
+        .character--profile-item > strong {
+          font-size: calc(18px + 12 * (100vw - 480px) / (1920 - 480)); } }
+      @media only screen and (min-width: 1920px) {
+        .character--profile-item > strong {
+          font-size: 30px; } }
+    .character--profile-item > .scroll {
+      overflow: auto;
+      padding-right: 30px;
+      scrollbar-color: var(--character-text) transparent;
+      scrollbar-width: thin;
+      max-height: 300px;
+      line-height: 200%;
+      text-align: justify; }
+      .character--profile-item > .scroll ul br {
+        display: none; }
+      .character--profile-item > .scroll ul + br,
+      .character--profile-item > .scroll h1 + br,
+      .character--profile-item > .scroll h2 + br,
+      .character--profile-item > .scroll h3 + br,
+      .character--profile-item > .scroll h4 + br,
+      .character--profile-item > .scroll h5 + br,
+      .character--profile-item > .scroll h6 + br,
+      .character--profile-item > .scroll h7 + br,
+      .character--profile-item > .scroll h8 + br {
+        display: none; }
+
+body.modal-open {
+  overflow: hidden; }

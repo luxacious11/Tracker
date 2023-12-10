@@ -3,7 +3,8 @@
     <head>
         @@include('../../source/templates/head.html', {
             "prefix": "../../dist",
-            "siteTitle": "Lux | Add Character"
+            "siteTitle": "Lux | Add Character",
+            "stylesheetName": "styles.css"
         })
     </head>
     <body>
@@ -31,6 +32,8 @@
         </section>
 
         <!--Scripts-->
-        <script type='text/javascript' src='../dist/js/scripts.js'></script>
+        @@include('../../source/templates/bottomScripts.html', {
+            "prefix": "../../dist"
+        })
     </body>
 </html>

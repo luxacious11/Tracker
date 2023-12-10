@@ -24,13 +24,12 @@
         //set class variables
         let $container = $('#tracker--rows');
 
-        fetch(`${sheet}/Threads`)
+        fetch(`https://opensheet.elk.sh/${threadSheet}/Threads`)
         .then((response) => response.json())
         .then((threadData) => {
             let siteThreads = threadData.filter(item => item.Site.toLowerCase().trim() === siteName.toLowerCase().trim());
             let threads = loadThreads(siteThreads);
 
-            console.log(threads);
             loadCharts(threads);
         });
     </script>

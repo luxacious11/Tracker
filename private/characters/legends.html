@@ -3,13 +3,20 @@
     <head>
         @@include('../../source/templates/head.html', {
             "prefix": "../../dist",
-            "siteTitle": "Lux | Legends Characters"
+            "siteTitle": "Lux | Godly Behaviour Characters",
+            "stylesheetName": "newStyles.css"
         })
+        <link rel="stylesheet" href="../../dist/css/legendsCharacters.css" />
     </head>
     <body>
         @@include('../../source/templates/nav.html', {
             "prefix": "../.."
         })
-        <section>Character Page</section>
+        @@include('../../source/templates/characters.html', {
+            "siteSheet": "Legends",
+            "extraFilters": "",
+            "siteURL": "https://legends.jcink.net/",
+            "showMortality": "false",
+        })
     </body>
 </html>

@@ -305,6 +305,20 @@ function configPartners(threads) {
             fillColor: 'var(--accent)',
         })
     }
+    final.sort((a, b) => {
+        if(a.y > b.y) {
+            return -1;
+        } else if (a.y < b.y) {
+            return 1;
+        } else if (a.x < b.x) {
+            return -1;
+        } else if (a.x > b.x) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+    final = final.filter(item => item.x.toLowerCase() !== 'event group' && item.x.toLowerCase() !== 'staff intervention');
     let partnerConfig = {
         series: [{data: final}],
         chart: {

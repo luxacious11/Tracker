@@ -3,8 +3,10 @@
     <head>
         @@include('../../source/templates/head.html', {
             "prefix": "../../dist",
-            "siteTitle": "Lux | Godly Behaviour Characters"
+            "siteTitle": "Lux | Godly Behaviour Characters",
+            "stylesheetName": "newStyles.css"
         })
+        <link rel="stylesheet" href="../../dist/css/gbCharacters.css" />
     </head>
     <body>
         @@include('../../source/templates/nav.html', {
@@ -14,9 +16,7 @@
             "siteSheet": "GB",
             "extraFilters": "FilterSpecies",
             "siteURL": "https://godlybehaviour.jcink.net/",
-            context: {
-              name: 'test'
-            }
+            "showMortality": "true",
         })
     </body>
 </html>

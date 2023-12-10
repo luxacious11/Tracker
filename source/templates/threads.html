@@ -75,10 +75,10 @@
         //set class variables
         let $container = $('#tracker--rows');
 
-        fetch(`${sheet}/Threads`)
+        fetch(`https://opensheet.elk.sh/${threadSheet}/Threads`)
         .then((response) => response.json())
         .then((threadData) => {
-            fetch(`${sheet}/Sites`)
+            fetch(`https://opensheet.elk.sh/${threadSheet}/Sites`)
             .then((response) => response.json())
             .then((siteData) => {
                 let siteObject = siteData.filter(item => item.Site.toLowerCase().trim() === siteName.toLowerCase().trim())[0];

@@ -7,7 +7,7 @@
 
 <!--Styles-->
 <link rel="stylesheet" href="../../dist/css/newStyles.css" />
-<link rel="stylesheet" href="https://dawneggleton.github.io/jcink-temps/sslp/characters.css" />
+<link rel="stylesheet" href="https://luxacious11.github.io/dist/css/characters.css" />
 
 <!--Fonts-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +31,7 @@
 
 <!--Scripts-->
 <script type='text/javascript' src='../../dist/js/functions.js'></script>
+        <link rel="stylesheet" href="../../dist/css/gbCharacters.css" />
     </head>
     <body>
         <nav>
@@ -83,18 +84,6 @@
     <div class="tracker--wrapper">
         <div class="tracker--filters">
             <div class="tracker--filter">
-                <button onClick="openFilters(this)">Shipped</button>
-                <div class="tracker--filter-dropdown">
-                    <div class="tracker--filter-group claim--labels" data-filter-group="shipped">
-                        <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
-                        <label><input type="checkbox" value=".shipped-taken">taken</label>
-                        <label><input type="checkbox" value=".shipped-wanted">wanted</label>
-                        <label><input type="checkbox" value=".shipped-open">open</label>
-                        <label><input type="checkbox" value=".shipped-none">not interested</label>
-                    </div>
-                </div>
-            </div>
-            <div class="tracker--filter">
                 <button onClick="openFilters(this)">Gender</button>
                 <div class="tracker--filter-dropdown">
                     <div class="tracker--filter-group claim--labels" data-filter-group="gender">
@@ -110,20 +99,37 @@
                 <div class="tracker--filter-dropdown">
                     <div class="tracker--filter-group claim--labels" data-filter-group="age">
                         <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
-                        <label><input type="checkbox" value=".age-under30">Under 30</label>
-                        <label><input type="checkbox" value=".age-30-59">30-59</label>
-                        <label><input type="checkbox" value=".age-50-99">60-99</label>
-                        <label><input type="checkbox" value=".age-100-499">100-499</label>
-                        <label><input type="checkbox" value=".age-500-999">500-999</label>
-                        <label><input type="checkbox" value=".age-1000-1999">1000-1999</label>
-                        <label><input type="checkbox" value=".age-2000-2999">2000-2999</label>
-                        <label><input type="checkbox" value=".age-3000">3000+</label>
+                        
+                        
+                            <label><input type="checkbox" value=".age-under30">Under 30</label>
+                            <label><input type="checkbox" value=".age-30-59">30-59</label>
+                            <label><input type="checkbox" value=".age-50-99">60-99</label>
+                            <label><input type="checkbox" value=".age-100-499">100-499</label>
+                            <label><input type="checkbox" value=".age-500-999">500-999</label>
+                            <label><input type="checkbox" value=".age-1000-1999">1000-1999</label>
+                            <label><input type="checkbox" value=".age-2000-2999">2000-2999</label>
+                            <label><input type="checkbox" value=".age-3000">3000+</label>
+                        
                     </div>
-                    <hr>
-                    <div class="tracker--filter-group claim--labels" data-filter-group="immortality">
-                        <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">either</label>
-                        <label><input type="checkbox" value=".age-mortal">Mortal</label>
-                        <label><input type="checkbox" value=".age-immortal">Immortal</label>
+                    
+                        <hr>
+                        <div class="tracker--filter-group claim--labels" data-filter-group="immortality">
+                            <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">either</label>
+                            <label><input type="checkbox" value=".age-mortal">Mortal</label>
+                            <label><input type="checkbox" value=".age-immortal">Immortal</label>
+                        </div>
+                    
+                </div>
+            </div>
+            <div class="tracker--filter">
+                <button onClick="openFilters(this)">Shipped</button>
+                <div class="tracker--filter-dropdown">
+                    <div class="tracker--filter-group claim--labels" data-filter-group="shipped">
+                        <label class="all is-checked"><input type="checkbox" class="all" value="" checked="">all</label>
+                        <label><input type="checkbox" value=".shipped-taken">taken</label>
+                        <label><input type="checkbox" value=".shipped-wanted">wanted</label>
+                        <label><input type="checkbox" value=".shipped-open">open</label>
+                        <label><input type="checkbox" value=".shipped-none">not interested</label>
                     </div>
                 </div>
             </div>
@@ -136,6 +142,7 @@
         </div>
     </div>
 </div>
+            
             
         </div>
         <div class="tracker--content">
