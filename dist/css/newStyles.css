@@ -649,9 +649,10 @@ section form {
       font-family: 'Font Awesome 6 Pro';
       font-weight: 700;
       color: var(--text-secondary); }
-    .type--comm .thread--buttons .icon::before,
-    .type--social .thread--buttons .icon::before {
+    .type--comm .thread--buttons .icon::before {
       content: '\f3cd'; }
+    .type--social .thread--buttons .icon::before {
+      content: '\f390'; }
     .type--thread .thread--buttons .icon::before {
       content: '\f02d'; }
     .type--oneshot .thread--buttons .icon::before {

@@ -701,9 +701,11 @@ section {
                 font-weight: 700;
                 color: var(--text-secondary);
             }
-            .type--comm &::before,
-            .type--social &::before {
+            .type--comm &::before {
                 content: '\f3cd';
+            }
+            .type--social &::before {
+                content: '\f390';
             }
             .type--thread &::before {
                 content: '\f02d';
