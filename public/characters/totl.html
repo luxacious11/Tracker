@@ -169,7 +169,7 @@
         const filterOptions = `.tracker--filter-group input`;
         const sorts = `.tracker--header button`;
         const gridItem = `.grid-item`;
-        const defaultShow = `:not(.inactive)`;
+        const defaultShow = ``;
 
         //set class variables
         let $container = $('#tracker--rows');
@@ -200,7 +200,7 @@
             $container.isotope({
                 itemSelector: gridItem,
                 percentPosition: true,
-                filter: defaultShow,
+                filter: '.active',
                 getSortData: {
                     charAsc: '.name',
                     charDesc: '.name',
