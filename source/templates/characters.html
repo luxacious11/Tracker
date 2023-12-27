@@ -105,7 +105,15 @@
         fetch(`https://opensheet.elk.sh/${characterSheet}/@@siteSheet`)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
+            data.sort((a, b) => {
+                if(a.Character < b.Character) {
+                    return -1;
+                } else if (a.Character > b.Character) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            })
             populateCharacters(data, filters = filters.split(', '), '@@siteURL');
 
         }).then(() => {
