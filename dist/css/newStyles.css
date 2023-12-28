@@ -605,8 +605,8 @@ section form {
   .thread--buttons {
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: (30px)[3];
-    grid-template-columns: repeat(3, 30px);
+    -ms-grid-columns: (30px)[4];
+    grid-template-columns: repeat(4, 30px);
     gap: 5px;
     -webkit-box-pack: end;
     -webkit-justify-content: end;

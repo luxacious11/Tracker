@@ -320,13 +320,16 @@ function addThread(e) {
 }
 function populateThreads(array, siteObject) {
     let html = ``;
-    let characters = [], partners = [], featuring = [];
+    let characters = [], partners = [], featuring = [], featureObjects;
 
     for (let i = 0; i < array.length; i++) {
         //Make Character Array
         let character = array[i].Character.toLowerCase();
         let partnerObjects = array[i].Partner.split('+').map(partner => JSON.parse(partner));
-        let featureObjects = array[i].Featuring.split('+').map(featured => JSON.parse(featured));
+
+        if(document.querySelector('.tracker--featuring')) {
+            featureObjects = array[i].Featuring.split('+').map(featured => JSON.parse(featured));
+        }
 
         if(jQuery.inArray(character, characters) == -1 && character != '') {
             characters.push(character);
@@ -336,11 +339,13 @@ function populateThreads(array, siteObject) {
                 partners.push(partner.partner);
             }
         });
-        featureObjects.forEach(featured => {
-            if(jQuery.inArray(featured.character, featuring) == -1 && featured.character != '') {
-                featuring.push(featured.character);
-            }
-        });
+        if(featureObjects) {
+            featureObjects.forEach(featured => {
+                if(jQuery.inArray(featured.character, featuring) == -1 && featured.character != '') {
+                    featuring.push(featured.character);
+                }
+            });
+        }
 
         html += formatThread(siteObject.Site,
                             siteObject.URL,
@@ -362,7 +367,9 @@ function populateThreads(array, siteObject) {
     //sort appendable filters
     characters.sort();
     partners.sort();
-    featuring.sort();
+    if(featureObjects) {
+        featuring.sort();
+    }
 
     //Append filters
     characters.forEach(character => {
@@ -371,12 +378,14 @@ function populateThreads(array, siteObject) {
     partners.forEach(partner => {
         document.querySelector('.tracker--partners').insertAdjacentHTML('beforeend', `<label><input type="checkbox" value=".partner--${partner.replaceAll(' ', '').toLowerCase().trim()}"/>${partner}</label>`);
     });
-    featuring.forEach(featured => {
-        let featuredArray = featured.toLowerCase().trim().split(' ');
-        let featuredClass = featuredArray.length > 1 ? `${featuredArray[0]}-${featuredArray[1][0]}` : featuredArray[0];
-        let featuredName = featuredArray.length > 1 ? `${featuredArray[0]} ${featuredArray[1][0]}.` : featuredArray[0];
-        document.querySelector('.tracker--featuring').insertAdjacentHTML('beforeend', `<label><input type="checkbox" value=".featured--${featuredClass}"/>${featuredName}</label>`);
-    });
+    if(featureObjects) {
+        featuring.forEach(featured => {
+            let featuredArray = featured.toLowerCase().trim().split(' ');
+            let featuredClass = featuredArray.length > 1 ? `${featuredArray[0]}-${featuredArray[1][0]}` : featuredArray[0];
+            let featuredName = featuredArray.length > 1 ? `${featuredArray[0]} ${featuredArray[1][0]}.` : featuredArray[0];
+            document.querySelector('.tracker--featuring').insertAdjacentHTML('beforeend', `<label><input type="checkbox" value=".featured--${featuredClass}"/>${featuredName}</label>`);
+        });
+    }
 }
 function debounce(fn, threshold) {
     var timeout;
