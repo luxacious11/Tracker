@@ -539,7 +539,7 @@ section form {
             -ms-flex-align: center;
                 align-items: center; } }
   .thread--main {
-    padding: 10px 0 10px 25px; }
+    padding: 10px 25px; }
     .status--mine .thread--main,
     .status--start .thread--main {
       background: var(--character-bg-transparent); }
