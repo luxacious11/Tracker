@@ -37,7 +37,7 @@
         <nav>
     <ul>
         <li>
-            <a href="../../public/index.html" class="highlight"><i class="fa-solid fa-plus"></i> Add</a>
+            <button class="highlight" onClick="toggleActive(this)"><i class="fa-solid fa-plus"></i> Add</button>
             <ul>
                 <li><a href="../../public/forms/thread.html">Add a Thread</a></li>
                 <li><a href="../../public/forms/site.html">Add a Site</a></li>
@@ -46,30 +46,40 @@
             </ul>
         </li>
         <li>
-            <a href="../../public/sites/gb.html">Godly Behaviour</a>
+            <button onClick="toggleActive(this)">Active</button>
             <ul>
-                <li><a href="../../public/tracking/gb.html">Threads</a></li>
-                <li><a href="../../public/tracking/gb-archived.html">Archived Threads</a></li>
-                <li><a href="../../public/charts/gb.html">Charts</a></li>
-                <li><a href="../../public/characters/gb.html">Characters</a></li>
+                <li>
+                    <button onClick="toggleActive(this)">Godly Behaviour</button>
+                    <ul>
+                        <li><a href="../../public/tracking/gb.html">Threads</a></li>
+                        <li><a href="../../public/tracking/gb-archived.html">Archives</a></li>
+                        <li><a href="../../public/charts/gb.html">Charts</a></li>
+                        <li><a href="../../public/characters/gb.html">Characters</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <button onClick="toggleActive(this)">Turn on the Light</button>
+                    <ul>
+                        <li><a href="../../public/tracking/totl.html">Threads</a></li>
+                        <li><a href="../../public/tracking/totl-archived.html">Archives</a></li>
+                        <li><a href="../../public/charts/totl.html">Charts</a></li>
+                        <li><a href="../../public/characters/totl.html">Characters</a></li>
+                    </ul>
+                </li>
             </ul>
         </li>
         <li>
-            <a href="../../public/sites/legends.html">Legends</a>
+            <button onClick="toggleActive(this)">Archives</button>
             <ul>
-                <li><a href="../../public/tracking/legends.html">Threads</a></li>
-                <li><a href="../../public/tracking/legends-archived.html">Archived Threads</a></li>
-                <li><a href="../../public/charts/legends.html">Charts</a></li>
-                <li><a href="../../public/characters/legends.html">Characters</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="../../public/sites/totl.html">Turn on the Light</a>
-            <ul>
-                <li><a href="../../public/tracking/totl.html">Threads</a></li>
-                <li><a href="../../public/tracking/totl-archived.html">Archived Threads</a></li>
-                <li><a href="../../public/charts/totl.html">Charts</a></li>
-                <li><a href="../../public/characters/totl.html">Characters</a></li>
+                <li>
+                    <button onClick="toggleActive(this)">Legends</button>
+                    <ul>
+                        <li><a href="../../public/tracking/legends.html">Threads</a></li>
+                        <li><a href="../../public/tracking/legends-archived.html">Archives</a></li>
+                        <li><a href="../../public/charts/legends.html">Charts</a></li>
+                        <li><a href="../../public/characters/legends.html">Characters</a></li>
+                    </ul>
+                </li>
             </ul>
         </li>
     </ul>
